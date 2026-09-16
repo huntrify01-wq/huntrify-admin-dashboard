@@ -1,0 +1,52 @@
+/* 
+========================================
+   HUNTRIFY REUSABLE COMPONENTS
+========================================
+Defined from theme.md specs.
+(Buttons are handled via React Components in src/components/button)
+*/
+
+@layer components {
+  /* --- Cards --- */
+  .card-base {
+    @apply bg-[var(--card-color)] border border-[var(--border-color)];
+    border-radius: var(--radius-card);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .glass-card {
+    @apply bg-[var(--surface-color)] backdrop-blur-md border border-[var(--border-color)];
+    border-radius: var(--radius-card);
+  }
+
+  /* --- Inputs --- */
+  .input-base {
+    @apply w-full bg-[var(--bg-color)] text-[var(--text-primary)] border border-[var(--border-color)] transition-all duration-200 outline-none shadow-sm;
+    border-radius: var(--radius-input);
+    padding: 10px 14px;
+  }
+  
+  .input-base:focus {
+    @apply border-[var(--primary-color)];
+    box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.15);
+  }
+
+  /* --- Custom Scrollbar --- */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-color);
+  }
+}

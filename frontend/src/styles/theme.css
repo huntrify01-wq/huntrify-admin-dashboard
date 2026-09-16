@@ -1,0 +1,88 @@
+/* 
+========================================
+   HUNTRIFY THEME VARIABLES & FONTS
+========================================
+*/
+
+@theme {
+  /* Colors */
+  --color-bg: var(--bg-color);
+  --color-surface: var(--surface-color);
+  --color-card: var(--card-color);
+  
+  --color-primary: var(--primary-color);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent-color);
+  
+  --color-success: var(--success-color);
+  --color-warning: var(--warning-color);
+  --color-error: var(--error-color);
+  
+  --color-text-main: var(--text-primary);
+  --color-text-sec: var(--text-secondary);
+  --color-muted: var(--muted-color);
+  --color-border-main: var(--border-color);
+
+  /* Fonts */
+  --font-headingA: 'Outfit', sans-serif;
+  --font-headingB: 'Crimson Text', serif;
+  --font-subheading: 'Righteous', cursive;
+  --font-body: 'Inter', 'Poppins', sans-serif;
+
+  /* Border Radius */
+  --radius-btn: 8px;
+  --radius-card: 24px;
+  --radius-input: 14px;
+
+  /* Breakpoints */
+  --breakpoint-mobile: 390px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1280px;
+  --breakpoint-desktop: 1440px;
+}
+
+@layer base {
+  :root {
+    /* Light Theme */
+    --bg-color: #FFFFFF;
+    --surface-color: #FAFAFA;
+    --card-color: #FFFFFF;
+    --primary-color: #3010fe;
+    --primary-hover: #533afd;
+    --accent-color: #715cfcd5;
+    --success-color: #0ebe2e;
+    --warning-color: #ff9900;
+    --error-color: #fb1313;
+    --text-primary: #09090B;
+    --text-secondary: #52525B;
+    --muted-color: #71717A;
+    --border-color: #E4E4E7;
+  }
+  
+  /* Dark Mode Default */
+  .dark {
+    --bg-color: #000000;
+    --surface-color: #111113;
+    --card-color: #16171A;
+    --primary-color: #3010fe;
+    --primary-hover: #533afd;
+    --accent-color: #715cfcd5;
+    --success-color: #0a963d;
+    --warning-color: #ffa50a;
+    --error-color: #fb3d3d;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A1A1AA;
+    --muted-color: #71717A;
+    --border-color: #27272A;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+}
