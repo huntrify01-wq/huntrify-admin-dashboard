@@ -30,7 +30,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(({
 
   return (
     <div className={cn("relative flex items-center w-full", className)}>
-      <i className="ri-search-line absolute left-4 text-text-sec text-lg pointer-events-none" />
+      <i className="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-text-sec text-lg pointer-events-none" />
       
       <input
         ref={ref}
@@ -41,7 +41,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(({
         placeholder={placeholder}
         className={cn(
           "w-full bg-surface border border-border-main text-text-main placeholder-text-sec text-sm rounded-xl",
-          "pl-11 pr-10 py-3",
+          "pl-11 pr-10 py-2 h-10",
           "transition-all duration-200 ease-in-out",
           "focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 hover:border-text-sec/30"
         )}
@@ -49,7 +49,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(({
       />
 
       {/* Loading Spinner or Clear Button */}
-      <div className="absolute right-3 flex items-center justify-center">
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
         {isLoading ? (
           <MainLoader size={20} className="text-primary" />
         ) : hasValue ? (

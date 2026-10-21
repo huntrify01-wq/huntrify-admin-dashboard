@@ -21,10 +21,11 @@ interface SelectProps {
   onChange?: (value: string | number) => void;
   className?: string;
   id?: string;
+  direction?: 'up' | 'down';
 }
 
 export const Selector = React.forwardRef<HTMLDivElement, SelectProps>(
-  ({ className, label, error, id, options, placeholder = "Select an option...", value, onChange }, ref) => {
+  ({ className, label, error, id, options, placeholder = "Select an option...", value, onChange, direction = 'down' }, ref) => {
     const selectId = id || React.useId();
     const [isOpen, setIsOpen] = useState(false);
     const [internalValue, setInternalValue] = useState<string | number | undefined>(value);
@@ -94,7 +95,10 @@ export const Selector = React.forwardRef<HTMLDivElement, SelectProps>(
 
           {/* Dropdown Menu */}
           {isOpen && (
-            <div className="absolute z-50 w-full mt-2 bg-bg border border-border-main rounded-[var(--radius-btn)] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] max-h-60 overflow-auto py-2 origin-top animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className={cn(
+              "absolute z-50 w-full bg-bg border border-border-main rounded-[var(--radius-btn)] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] max-h-60 overflow-auto py-2 animate-in fade-in duration-200",
+              direction === 'up' ? "bottom-full mb-2 origin-bottom slide-in-from-bottom-2" : "top-full mt-2 origin-top slide-in-from-top-2"
+            )}>
               <ul className="flex flex-col">
                 {options.map((option) => (
                   <li
