@@ -10,7 +10,7 @@ const AdminTabSelector = ({ tabs, activeTab, onTabChange }) => {
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`relative h-full flex items-center py-3 text-[13px] font-semibold transition-colors whitespace-nowrap shrink-0 ${
+            className={`relative h-full flex items-center py-3 text-[13px] font-semibold transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer active:scale-95 ${
               isActive ? 'text-primary' : 'text-text-sec hover:text-text-main'
             }`}
           >

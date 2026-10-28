@@ -48,12 +48,27 @@ const NAV_SECTIONS = [
 ];
 
 import { useEffect, useRef } from 'react';
+import { cn } from './utils/cn';
 
 // ── Layout wrapper (has access to useLocation) ────────────────────────────────
 function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [role] = useState('admin'); // TODO: wire to auth context
+  const [sidebarPref, setSidebarPref] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('huntrify-sidebar-preference') || 'expanded';
+    }
+    return 'expanded';
+  });
+
+  useEffect(() => {
+    const handleSidebarChange = (e: any) => {
+      setSidebarPref(e.detail || localStorage.getItem('huntrify-sidebar-preference') || 'expanded');
+    };
+    window.addEventListener('huntrify-sidebar-change', handleSidebarChange);
+    return () => window.removeEventListener('huntrify-sidebar-change', handleSidebarChange);
+  }, []);
 
   const handleNavSelect = (key) => {
     const flat = NAV_SECTIONS.flatMap(s => s.items);
@@ -61,11 +76,14 @@ function AppLayout() {
     if (item?.href) navigate(item.href);
   };
 
+  const isCollapsed = sidebarPref === 'collapsed';
+
   return (
-    <div className="flex min-h-screen bg-bg text-text-main">
-      {/* ── Sidebar (Sticky) ────────────────────────────────────────── */}
-      <div className="sticky top-0 h-screen shrink-0 z-50">
+    <div className="flex h-screen bg-bg text-text-main overflow-hidden">
+      {/* ── Sidebar (Sticky/Fixed) ─────────────────────────────────── */}
+      <div className="h-screen shrink-0 z-50">
         <Sidebar
+          defaultCollapsed={isCollapsed}
           sections={NAV_SECTIONS}
           activeKey={location.pathname}
           onSelect={handleNavSelect}
@@ -76,10 +94,20 @@ function AppLayout() {
       </div>
 
       {/* ── Main content area ─────────────────────────────────────── */}
-      <div className="flex flex-col flex-1 min-w-0 h-screen overflow-y-auto overflow-x-hidden relative">
-        {/* Top bar (Sticky) */}
-        <header className="sticky top-0 shrink-0 w-full h-16 border-b border-border-main bg-surface/70 backdrop-blur-xl z-40">
-          <div className="flex items-center justify-between h-full px-4 sm:px-6 w-full max-w-[1600px] mx-auto min-w-0 gap-2">
+      <div className="flex flex-col flex-1 min-w-0 h-screen relative">
+        {/* Top bar (Sticky at top, moves left into 72px blank space when collapsed) */}
+        <header
+          className={cn(
+            "shrink-0 h-16 border-b border-border-main bg-surface/70 backdrop-blur-xl z-40 transition-all duration-300",
+            isCollapsed ? "-ml-[72px] w-[calc(100%+72px)]" : "w-full"
+          )}
+        >
+          <div
+            className={cn(
+              "flex items-center justify-between h-full px-4 sm:px-6 max-w-[1600px] mx-auto min-w-0 gap-2 transition-all duration-300",
+              isCollapsed ? "ml-[72px] w-[calc(100%-72px)]" : "w-full"
+            )}
+          >
             <div className="text-base sm:text-lg font-semibold text-text-sec truncate min-w-0 flex-1">
               User Management
             </div>
@@ -91,7 +119,7 @@ function AppLayout() {
         </header>
 
         {/* Page content */}
-        <main className="flex flex-col flex-1 relative z-0 w-full max-w-[1600px] mx-auto">
+        <main className="flex flex-col flex-1 min-w-0 overflow-y-auto overflow-x-hidden relative z-0 w-full max-w-[1600px] mx-auto">
           <Routes>
             <Route path="/*" element={<AdminRoutes />} />
           </Routes>

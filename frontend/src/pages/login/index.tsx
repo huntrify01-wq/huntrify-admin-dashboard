@@ -37,7 +37,7 @@ const LoginPage = () => {
         <div className="flex flex-col gap-4 mb-6">
           <button 
             type="button"
-            className="w-full flex items-center justify-center gap-3 bg-surface hover:bg-surface-hover border border-border-main text-text-main py-2.5 px-4 rounded-lg transition-colors font-medium shadow-sm"
+            className="w-full flex items-center justify-center gap-3 bg-surface hover:bg-border-main/50 border border-border-main hover:border-text-sec/30 text-text-main py-2.5 px-4 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-[0.98] cursor-pointer"
             onClick={() => navigate('/user-management/overview')}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">

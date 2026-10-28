@@ -66,7 +66,7 @@ const TeamOverview = () => {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
               <h2 className="text-xl font-bold text-text-main">Team Members</h2>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full md:w-auto">
-                <div className="w-full sm:w-[250px]">
+                <div className="w-full sm:w-[280px]">
                   <SearchBar placeholder="Search members..." />
                 </div>
                 <div className="w-full sm:w-[150px]">

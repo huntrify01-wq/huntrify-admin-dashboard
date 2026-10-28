@@ -91,7 +91,9 @@ const SuspendedRestricted = () => {
             </div>
 
           <div className="flex items-center gap-3">
-               <SearchBar placeholder="Search members..." />
+               <div className="w-full sm:w-[280px]">
+                  <SearchBar placeholder="Search members..." />
+               </div>
                <Selector options={[{label: 'All Roles', value: 'all'}]} value="all" />
                <SecondaryButton onClick={() => setIsFilterOpen(true)} className="w-full sm:w-auto">
                   <i className="ri-filter-3-line mr-1.5" /> Filter
@@ -104,7 +106,7 @@ const SuspendedRestricted = () => {
           <table className="w-full text-left border-collapse whitespace-nowrap min-w-[1000px]">
             <thead>
               <tr className="border-b border-border-main/50 bg-black/5 dark:bg-white/5">
-                <th className="px-6 py-4 w-10"><input type="checkbox" className="accent-primary w-4 h-4 rounded" /></th>
+
                 <th className="px-6 py-4 text-xs font-semibold tracking-wider text-text-sec">Name</th>
                 <th className="px-6 py-4 text-xs font-semibold tracking-wider text-text-sec">Role</th>
                 <th className="px-6 py-4 text-xs font-semibold tracking-wider text-text-sec">Status</th>
@@ -120,8 +122,8 @@ const SuspendedRestricted = () => {
               {(activeTab === 'all' || activeTab === 'suspended') && (
                 <>
                   <tr className="bg-black/2 dark:bg-white/2 border-b border-border-main/30">
-                    <td className="px-6 py-4"></td>
-                    <td colSpan={7} className="py-4">
+
+                    <td colSpan={7} className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <i className="ri-pause-circle-fill text-yellow-500 text-xl" />
                         <div className="flex flex-col">
@@ -135,7 +137,7 @@ const SuspendedRestricted = () => {
                   {/* Suspended Rows */}
                   {suspendedData.map((user) => (
                     <tr key={user.id} className="border-b border-border-main/30 hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-4"><input type="checkbox" className="accent-primary w-4 h-4 rounded" /></td>
+
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center font-bold text-sm shrink-0">
@@ -172,13 +174,29 @@ const SuspendedRestricted = () => {
                         <div className="relative inline-block text-left">
                           <button 
                             onClick={() => setActionMenuId(actionMenuId === user.id ? null : user.id)}
-                            className="w-8 h-8 flex items-center justify-center border border-border-main rounded-lg text-text-sec hover:text-text-main hover:bg-surface-hover transition-colors"
+                            className="w-8 h-8 flex items-center justify-center border border-border-main rounded-lg text-text-sec hover:text-text-main hover:bg-border-main/50 cursor-pointer active:scale-95 transition-all duration-150"
                           >
                             <i className="ri-more-fill text-lg" />
                           </button>
                           {actionMenuId === user.id && (
                             <div className="absolute right-0 top-full mt-2 z-[60]">
-                               <AdminActionMenu isOpen={true} onClose={() => setActionMenuId(null)} actions={actions} />
+                               <div className="w-56 bg-surface border border-border-main rounded-2xl shadow-xl py-2 flex flex-col animate-in fade-in slide-in-from-top-2 duration-200">
+                                 {actions.map((action: any, index: number) => {
+                                   if (action.type === 'divider') return <div key={index} className="w-full h-[1px] bg-border-main my-1.5"></div>;
+                                   return (
+                                     <button
+                                       key={index}
+                                       onClick={() => setActionMenuId(null)}
+                                       className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer hover:bg-border-main/50 ${
+                                         action.isDanger ? 'text-red-500 hover:text-red-600' : 'text-text-sec hover:text-text-main'
+                                       }`}
+                                     >
+                                       <i className={`${action.icon} text-lg`} />
+                                       {action.label}
+                                     </button>
+                                   );
+                                 })}
+                               </div>
                             </div>
                           )}
                         </div>
@@ -192,8 +210,8 @@ const SuspendedRestricted = () => {
               {(activeTab === 'all' || activeTab === 'restricted') && (
                 <>
                   <tr className="bg-black/2 dark:bg-white/2 border-b border-border-main/30">
-                    <td className="px-6 py-4"></td>
-                    <td colSpan={7} className="py-4">
+
+                    <td colSpan={7} className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <i className="ri-forbid-line text-red-500 text-xl font-bold" />
                         <div className="flex flex-col">
@@ -207,7 +225,7 @@ const SuspendedRestricted = () => {
                   {/* Restricted Rows */}
                   {restrictedData.map((user) => (
                     <tr key={user.id} className="border-b border-border-main/30 hover:bg-white/5 transition-colors group last:border-0">
-                      <td className="px-6 py-4"><input type="checkbox" className="accent-primary w-4 h-4 rounded" /></td>
+
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center font-bold text-sm shrink-0">
@@ -245,13 +263,29 @@ const SuspendedRestricted = () => {
                         <div className="relative inline-block text-left">
                           <button 
                             onClick={() => setActionMenuId(actionMenuId === user.id ? null : user.id)}
-                            className="w-8 h-8 flex items-center justify-center border border-border-main rounded-lg text-text-sec hover:text-text-main hover:bg-surface-hover transition-colors"
+                            className="w-8 h-8 flex items-center justify-center border border-border-main rounded-lg text-text-sec hover:text-text-main hover:bg-border-main/50 cursor-pointer active:scale-95 transition-all duration-150"
                           >
                             <i className="ri-more-fill text-lg" />
                           </button>
                           {actionMenuId === user.id && (
                             <div className="absolute right-0 top-full mt-2 z-[60]">
-                               <AdminActionMenu isOpen={true} onClose={() => setActionMenuId(null)} actions={actions} />
+                               <div className="w-56 bg-surface border border-border-main rounded-2xl shadow-xl py-2 flex flex-col animate-in fade-in slide-in-from-top-2 duration-200">
+                                 {actions.map((action: any, index: number) => {
+                                   if (action.type === 'divider') return <div key={index} className="w-full h-[1px] bg-border-main my-1.5"></div>;
+                                   return (
+                                     <button
+                                       key={index}
+                                       onClick={() => setActionMenuId(null)}
+                                       className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer hover:bg-border-main/50 ${
+                                         action.isDanger ? 'text-red-500 hover:text-red-600' : 'text-text-sec hover:text-text-main'
+                                       }`}
+                                     >
+                                       <i className={`${action.icon} text-lg`} />
+                                       {action.label}
+                                     </button>
+                                   );
+                                 })}
+                               </div>
                             </div>
                           )}
                         </div>
@@ -269,9 +303,9 @@ const SuspendedRestricted = () => {
         <div className="p-4 border-t border-border-main flex items-center justify-between bg-black/2 dark:bg-white/2">
           <span className="text-sm text-text-sec">Showing 1-4 of 4 members</span>
           <div className="flex items-center gap-2">
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-surface-hover"><i className="ri-arrow-left-s-line" /></button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">1</button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-surface-hover"><i className="ri-arrow-right-s-line" /></button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-border-main/50 cursor-pointer active:scale-95 transition-all duration-150"><i className="ri-arrow-left-s-line" /></button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm cursor-pointer active:scale-95 transition-all duration-150">1</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-border-main/50 cursor-pointer active:scale-95 transition-all duration-150"><i className="ri-arrow-right-s-line" /></button>
           </div>
         </div>
 

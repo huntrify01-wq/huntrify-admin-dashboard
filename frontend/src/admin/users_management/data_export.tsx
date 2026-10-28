@@ -6,6 +6,10 @@ import { PrimaryButton } from '../../components/button/PrimaryButton';
 const DataExport = () => {
   const [activeTab, setActiveTab] = useState('new');
   const [exportType, setExportType] = useState('filtered');
+  const [exportFormat, setExportFormat] = useState('csv');
+  const [dateJoinedFilter, setDateJoinedFilter] = useState('all');
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportSuccess, setExportSuccess] = useState(false);
 
   return (
     <div className="p-4 pt-6 md:p-6 lg:p-8 w-full flex flex-col gap-6 min-h-screen bg-transparent">
@@ -81,7 +85,7 @@ const DataExport = () => {
                   <h3 className="font-bold text-text-main text-lg">1. Apply Filters</h3>
                   <p className="text-sm text-text-sec mt-1">Include only relevant users in your export.</p>
                 </div>
-                <button className="text-xs font-bold text-primary hover:underline bg-primary/10 px-3 py-1.5 rounded-lg">Clear All</button>
+                <button className="text-xs font-bold text-primary hover:underline bg-primary/10 hover:bg-primary/20 px-3 py-1.5 rounded-lg cursor-pointer active:scale-95 transition-all duration-150">Clear All</button>
               </div>
               
               <div className="flex flex-col gap-6">
@@ -107,7 +111,8 @@ const DataExport = () => {
                   <h4 className="font-bold text-text-main mb-3 text-[12px] uppercase tracking-wider">Date Joined</h4>
                   <Selector 
                     options={[{ label: 'Last 30 Days', value: '30' }, { label: 'Last 90 Days', value: '90' }, { label: 'This Year', value: 'year' }, { label: 'All Time', value: 'all' }]} 
-                    value="all" 
+                    value={dateJoinedFilter}
+                    onChange={(val) => setDateJoinedFilter(String(val))}
                   />
                 </div>
               </div>
@@ -121,9 +126,9 @@ const DataExport = () => {
                   <p className="text-sm text-text-sec mt-1">Choose the user data columns you want to include in the exported file.</p>
                 </div>
                 <div className="flex gap-2">
-                   <button className="text-xs font-bold text-primary hover:underline px-2 py-1">Select All</button>
+                   <button className="text-xs font-bold text-primary hover:underline px-2 py-1 cursor-pointer active:scale-95 transition-all duration-150">Select All</button>
                    <span className="text-border-main">|</span>
-                   <button className="text-xs font-bold text-text-sec hover:text-text-main px-2 py-1">Deselect All</button>
+                   <button className="text-xs font-bold text-text-sec hover:text-text-main px-2 py-1 cursor-pointer active:scale-95 transition-all duration-150">Deselect All</button>
                 </div>
               </div>
               
@@ -152,7 +157,8 @@ const DataExport = () => {
                 <label className="text-[11px] font-bold text-text-main uppercase tracking-wider ml-1">Export Format</label>
                 <Selector 
                   options={[{ label: 'CSV Format (.csv)', value: 'csv' }, { label: 'Excel Format (.xlsx)', value: 'xlsx' }, { label: 'JSON Format (.json)', value: 'json' }]} 
-                  value="csv" 
+                  value={exportFormat}
+                  onChange={(val) => setExportFormat(String(val))}
                 />
               </div>
               
@@ -167,8 +173,19 @@ const DataExport = () => {
               </div>
             </div>
 
-            <PrimaryButton className="px-6 py-2.5 flex items-center gap-2 text-sm">
-              <i className="ri-download-cloud-2-line text-lg" /> Generate Export
+            <PrimaryButton 
+              onClick={() => {
+                setIsExporting(true);
+                setTimeout(() => {
+                  setIsExporting(false);
+                  setExportSuccess(true);
+                  setTimeout(() => setExportSuccess(false), 3000);
+                }, 700);
+              }}
+              disabled={isExporting}
+              className="px-6 py-2.5 flex items-center gap-2 text-sm"
+            >
+              <i className={exportSuccess ? "ri-check-line text-lg text-white" : isExporting ? "ri-loader-4-line text-lg animate-spin" : "ri-download-cloud-2-line text-lg"} /> {exportSuccess ? `Exported (.${exportFormat})` : isExporting ? 'Generating...' : `Generate Export (.${exportFormat})`}
             </PrimaryButton>
 
           </div>
@@ -216,7 +233,7 @@ const DataExport = () => {
                        </div>
                      </td>
                      <td className="px-6 py-4 text-right">
-                       <button className="bg-primary/10 text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">
+                       <button className="bg-primary/10 text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 hover:shadow-md">
                          Download
                        </button>
                      </td>

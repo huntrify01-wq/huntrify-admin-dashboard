@@ -31,7 +31,13 @@ export const Selector = React.forwardRef<HTMLDivElement, SelectProps>(
     const [internalValue, setInternalValue] = useState<string | number | undefined>(value);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const currentValue = value !== undefined ? value : internalValue;
+    useEffect(() => {
+      if (value !== undefined) {
+        setInternalValue(value);
+      }
+    }, [value]);
+
+    const currentValue = onChange ? (value !== undefined ? value : internalValue) : internalValue;
     const selectedOption = options.find((opt) => opt.value === currentValue);
 
     // Close on click outside

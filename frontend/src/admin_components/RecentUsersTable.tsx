@@ -6,7 +6,7 @@ const RecentUsersTable = ({ users }: any) => {
     <div className="bg-surface border border-border-main rounded-2xl p-6 shadow-sm overflow-hidden">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-[17px] font-bold font-headingA text-text-main">Recent Users</h3>
-        <button className="text-sm font-semibold text-primary hover:opacity-80 transition-opacity">
+        <button className="text-sm font-semibold text-primary hover:opacity-80 transition-all cursor-pointer active:scale-95">
           View All
         </button>
       </div>
@@ -24,7 +24,7 @@ const RecentUsersTable = ({ users }: any) => {
           </thead>
           <tbody>
             {users.map((user: any, idx: number) => (
-              <tr key={idx} className="border-b border-border-main/30 last:border-0 hover:bg-surface-hover transition-colors group">
+              <tr key={idx} className="border-b border-border-main/30 last:border-0 hover:bg-black/5 dark:hover:bg-white/5 transition-colors group">
                 <td className="py-4 px-2">
                   <div className="flex items-center gap-3">
                     <Avatar 

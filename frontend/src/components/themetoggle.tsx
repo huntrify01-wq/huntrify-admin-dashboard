@@ -2,38 +2,60 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const ThemeToggle: React.FC = () => {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('huntrify-theme');
+      if (savedTheme === 'light') return false;
+      if (savedTheme === 'dark') return true;
+      return document.documentElement.classList.contains('dark');
+    }
+    return true;
+  });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('huntrify-theme');
-    const root = document.documentElement;
-    if (savedTheme === 'light') {
-      setIsDark(false);
-      root.classList.remove('dark');
-    } else {
-      setIsDark(true);
-      root.classList.add('dark');
-    }
+    const handleThemeChange = () => {
+      const savedTheme = localStorage.getItem('huntrify-theme');
+      const root = document.documentElement;
+      const isSystem = savedTheme === 'system';
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const darkActive = savedTheme === 'dark' || (isSystem && systemDark) || (!savedTheme && systemDark) || !savedTheme;
+      
+      setIsDark(darkActive);
+      if (darkActive) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    };
+
+    window.addEventListener('huntrify-theme-change', handleThemeChange);
+    window.addEventListener('storage', handleThemeChange);
+    return () => {
+      window.removeEventListener('huntrify-theme-change', handleThemeChange);
+      window.removeEventListener('storage', handleThemeChange);
+    };
   }, []);
 
   const toggleTheme = () => {
     const root = document.documentElement;
-    if (isDark) {
-      root.classList.remove('dark');
-      localStorage.setItem('huntrify-theme', 'light');
-      setIsDark(false);
-    } else {
+    const nextDark = !isDark;
+    const newTheme = nextDark ? 'dark' : 'light';
+    
+    setIsDark(nextDark);
+    if (nextDark) {
       root.classList.add('dark');
-      localStorage.setItem('huntrify-theme', 'dark');
-      setIsDark(true);
+    } else {
+      root.classList.remove('dark');
     }
+    localStorage.setItem('huntrify-theme', newTheme);
+    window.dispatchEvent(new CustomEvent('huntrify-theme-change', { detail: newTheme }));
   };
 
   return (
     <motion.button 
       onClick={toggleTheme}
       whileTap={{ scale: 0.9 }}
-      className="relative w-9 h-9 flex items-center justify-center rounded-full bg-surface border border-border-main text-text-sec hover:text-text-main hover:border-primary/50 transition-colors focus:outline-none overflow-hidden shadow-sm"
+      className="relative w-9 h-9 flex items-center justify-center rounded-full bg-surface border border-border-main text-text-sec hover:text-text-main hover:border-primary/50 transition-colors focus:outline-none overflow-hidden shadow-sm cursor-pointer"
       aria-label="Toggle Theme"
     >
       <motion.div

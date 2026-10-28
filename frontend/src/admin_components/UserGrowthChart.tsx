@@ -15,7 +15,7 @@ const UserGrowthChart = () => {
   const [dateRange, setDateRange] = useState('6m');
 
   return (
-    <div className="bg-surface border border-border-main rounded-2xl p-6 pb-0 shadow-sm flex flex-col h-full overflow-hidden">
+    <div className="bg-surface border border-border-main rounded-2xl p-6 pb-0 shadow-sm flex flex-col h-full relative z-20 overflow-visible">
       <div className="flex items-start justify-between gap-2 mb-6">
         <div className="min-w-0 pr-2 flex-1">
           <h3 className="text-base sm:text-lg font-bold font-headingA text-text-main whitespace-nowrap">User Growth</h3>
@@ -28,7 +28,7 @@ const UserGrowthChart = () => {
         />
       </div>
 
-      <div className="flex-1 -mx-6 relative">
+      <div className="flex-1 -mx-6 relative overflow-visible">
         <AreaChart 
           data={chartData} 
           color="#8b5cf6" 

@@ -43,7 +43,7 @@ const AdminAdvancedFiltersModal = ({
     >
       <div className="flex items-center justify-between mb-4 mt-2">
         <span className="text-sm text-text-sec font-medium">Select criteria to refine your view:</span>
-        <button className="text-sm font-medium text-primary hover:underline flex items-center gap-1">
+        <button className="text-sm font-medium text-primary hover:underline flex items-center gap-1 cursor-pointer active:scale-95 transition-all duration-150">
           <i className="ri-refresh-line" /> Clear All
         </button>
       </div>

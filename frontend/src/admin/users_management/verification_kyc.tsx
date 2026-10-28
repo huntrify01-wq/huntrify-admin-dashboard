@@ -115,7 +115,9 @@ const VerificationKyc = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full md:w-auto mt-2 md:mt-0">
-             <SearchBar placeholder="Search by name, email, phone..." />
+             <div className="w-full sm:w-[320px] md:w-[340px]">
+                <SearchBar placeholder="Search by name, email, phone..." />
+             </div>
              <SecondaryButton onClick={() => setIsFilterOpen(true)} className="w-full sm:w-auto">
                 <i className="ri-filter-3-line mr-1.5" /> Filter
              </SecondaryButton>
@@ -127,7 +129,7 @@ const VerificationKyc = () => {
           <table className="w-full text-left border-collapse whitespace-nowrap min-w-[1100px]">
             <thead>
               <tr className="border-b border-border-main/50 bg-black/5 dark:bg-white/5">
-                <th className="px-6 py-4 w-10"><input type="checkbox" className="accent-primary w-4 h-4 rounded" /></th>
+
                 <th className="px-6 py-4 text-xs font-semibold tracking-wider text-text-sec">User</th>
                 <th className="px-6 py-4 text-xs font-semibold tracking-wider text-text-sec">User Type</th>
                 <th className="px-6 py-4 text-xs font-semibold tracking-wider text-text-sec">Verification Status</th>
@@ -142,7 +144,7 @@ const VerificationKyc = () => {
                 const statusStyle = getStatusStyle(user.status);
                 return (
                   <tr key={user.id} className="border-b border-border-main/30 hover:bg-white/5 transition-colors group">
-                    <td className="px-6 py-4"><input type="checkbox" className="accent-primary w-4 h-4 rounded" /></td>
+
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center font-bold text-sm shrink-0">
@@ -202,7 +204,7 @@ const VerificationKyc = () => {
                                 <button
                                   key={index}
                                   onClick={() => setActionMenuId(null)}
-                                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-surface-hover ${
+                                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer hover:bg-border-main/50 ${
                                     action.isDanger ? 'text-red-500 hover:text-red-600' : 'text-text-sec hover:text-text-main'
                                   }`}
                                 >
@@ -226,15 +228,15 @@ const VerificationKyc = () => {
         <div className="p-4 border-t border-border-main flex items-center justify-between bg-black/2 dark:bg-white/2">
           <span className="text-sm text-text-sec">Showing 1-8 of 1,284 users</span>
           <div className="flex items-center gap-1">
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-surface-hover"><i className="ri-arrow-left-s-line" /></button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">1</button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-hover text-text-main font-medium text-sm">2</button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-hover text-text-main font-medium text-sm">3</button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-hover text-text-main font-medium text-sm">4</button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-hover text-text-main font-medium text-sm">5</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-border-main/50 cursor-pointer active:scale-95 transition-all duration-150"><i className="ri-arrow-left-s-line" /></button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm cursor-pointer active:scale-95 transition-all duration-150">1</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-border-main/50 text-text-main font-medium text-sm cursor-pointer active:scale-95 transition-all duration-150">2</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-border-main/50 text-text-main font-medium text-sm cursor-pointer active:scale-95 transition-all duration-150">3</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-border-main/50 text-text-main font-medium text-sm cursor-pointer active:scale-95 transition-all duration-150">4</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-border-main/50 text-text-main font-medium text-sm cursor-pointer active:scale-95 transition-all duration-150">5</button>
              <span className="px-1 text-text-sec">...</span>
-             <button className="w-10 h-8 flex items-center justify-center rounded-lg hover:bg-surface-hover text-text-main font-medium text-sm">161</button>
-             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-surface-hover"><i className="ri-arrow-right-s-line" /></button>
+             <button className="w-10 h-8 flex items-center justify-center rounded-lg hover:bg-border-main/50 text-text-main font-medium text-sm cursor-pointer active:scale-95 transition-all duration-150">161</button>
+             <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-border-main text-text-sec hover:text-text-main hover:bg-border-main/50 cursor-pointer active:scale-95 transition-all duration-150"><i className="ri-arrow-right-s-line" /></button>
           </div>
         </div>
 

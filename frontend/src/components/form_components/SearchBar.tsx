@@ -29,8 +29,8 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(({
   };
 
   return (
-    <div className={cn("relative flex items-center w-full", className)}>
-      <i className="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-text-sec text-lg pointer-events-none" />
+    <div className={cn("relative flex items-center w-full min-w-[240px] sm:min-w-[280px]", className)}>
+      <i className="ri-search-line absolute left-3.5 top-1/2 -translate-y-1/2 text-text-sec text-lg pointer-events-none" />
       
       <input
         ref={ref}
@@ -41,31 +41,30 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(({
         placeholder={placeholder}
         className={cn(
           "w-full bg-surface border border-border-main text-text-main placeholder-text-sec text-sm rounded-xl",
-          "pl-11 pr-10 py-2 h-10",
+          "pl-9.5 py-2 h-10",
+          hasValue || isLoading ? "pr-10" : "pr-3.5",
           "transition-all duration-200 ease-in-out",
           "focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 hover:border-text-sec/30"
         )}
         {...props}
       />
 
-      {/* Loading Spinner or Clear Button */}
-      <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
-        {isLoading ? (
-          <MainLoader size={20} className="text-primary" />
-        ) : hasValue ? (
-          <button
-            type="button"
-            onClick={onClear}
-            className="text-text-sec hover:text-text-main transition-colors focus:outline-none p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center"
-          >
-            <AnimatedCross size={16} />
-          </button>
-        ) : (
-          <div className="flex items-center justify-center h-6 px-1.5 rounded bg-bg border border-border-main text-[10px] font-medium text-text-sec font-mono opacity-70 select-none">
-            ⌘K
-          </div>
-        )}
-      </div>
+      {/* Loading Spinner or Clear Button (only shown when loading or has text) */}
+      {(isLoading || hasValue) && (
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
+          {isLoading ? (
+            <MainLoader size={20} className="text-primary" />
+          ) : (
+            <button
+              type="button"
+              onClick={onClear}
+              className="text-text-sec hover:text-text-main transition-colors focus:outline-none p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center cursor-pointer active:scale-90"
+            >
+              <AnimatedCross size={16} />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 });

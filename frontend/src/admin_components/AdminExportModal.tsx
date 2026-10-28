@@ -75,7 +75,7 @@ const AdminExportModal = ({ isOpen, onClose }: any) => {
                 <h3 className="font-bold text-text-main">1. Apply Filters</h3>
                 <p className="text-sm text-text-sec">Use filters to include only relevant users in your export.</p>
               </div>
-              <button className="text-sm font-medium text-primary hover:underline">Clear All</button>
+              <button className="text-sm font-medium text-primary hover:underline cursor-pointer active:scale-95 transition-all duration-150">Clear All</button>
             </div>
             
             {/* Dummy filter grid */}
@@ -107,9 +107,9 @@ const AdminExportModal = ({ isOpen, onClose }: any) => {
                 <p className="text-sm text-text-sec">Choose the user data you want to include.</p>
               </div>
               <div className="flex gap-2">
-                 <button className="text-xs font-medium text-primary hover:underline">Select All</button>
+                 <button className="text-xs font-medium text-primary hover:underline cursor-pointer active:scale-95 transition-all duration-150">Select All</button>
                  <span className="text-text-sec text-xs">|</span>
-                 <button className="text-xs font-medium text-text-sec hover:text-text-main">Deselect All</button>
+                 <button className="text-xs font-medium text-text-sec hover:text-text-main cursor-pointer active:scale-95 transition-all duration-150">Deselect All</button>
               </div>
             </div>
             

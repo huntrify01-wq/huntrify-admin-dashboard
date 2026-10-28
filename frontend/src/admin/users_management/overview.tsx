@@ -49,6 +49,7 @@ const OverviewStatCard = ({ title, value, trend, trendUp, iconClass, iconBg, ico
 
 // A simple reusable placeholder for the donut charts in the screenshot
 const DonutChartCard = ({ title, subtitle, total, labels }) => {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   return (
     <div className="bg-surface border border-border-main rounded-2xl p-6 shadow-sm flex flex-col h-full">
       <div className="mb-6">
@@ -57,11 +58,18 @@ const DonutChartCard = ({ title, subtitle, total, labels }) => {
       </div>
       <div className="flex flex-col sm:flex-row items-center gap-8 mt-auto mb-auto">
         {/* Animated SVG Donut Chart */}
-        <DonutChart data={labels} total={total} />
+        <DonutChart data={labels} total={total} hoveredIndex={hoveredIdx} onHoverChange={setHoveredIdx} />
         
         <div className="flex-1 flex flex-col gap-3 w-full sm:max-w-[220px]">
           {labels.map((lbl, idx) => (
-            <div key={idx} className="flex items-center justify-between text-[13px]">
+            <div 
+              key={idx} 
+              onMouseEnter={() => setHoveredIdx(idx)}
+              onMouseLeave={() => setHoveredIdx(null)}
+              className={`flex items-center justify-between text-[13px] px-2 py-1 rounded-lg transition-all cursor-pointer ${
+                hoveredIdx === idx ? 'bg-border-main/50 font-semibold' : 'hover:bg-border-main/30'
+              }`}
+            >
               <div className="flex items-center gap-3">
                 <div className={`w-3 h-3 rounded-full ${lbl.color}`} />
                 <span className="text-text-sec font-medium">{lbl.name}</span>
@@ -79,6 +87,7 @@ const DonutChartCard = ({ title, subtitle, total, labels }) => {
 };
 
 const UsersOverview = () => {
+  const [selectedRange, setSelectedRange] = useState('30d');
   const recentUsersData = [
     { initials: 'AM', name: 'Aarav Mehta', handle: '@aaravmehta', role: 'Freelancer', plan: 'Free', verification: 'Verified', status: 'Active', joinedDate: '2 minutes ago' },
     { initials: 'SK', name: 'Simran Kaur', handle: '@simrank', role: 'Job Seeker', plan: 'Free', verification: 'Pending', status: 'Active', joinedDate: '12 minutes ago' },
@@ -111,7 +120,7 @@ const UsersOverview = () => {
         
         {/* Desktop Export Controls (Hidden on Mobile) */}
         <div className="hidden lg:flex items-center gap-3 shrink-0 z-50">
-          <DateRangeSelector value="30d" />
+          <DateRangeSelector value={selectedRange} onChange={setSelectedRange} />
           <PrimaryButton className="px-5 shadow-[0_4px_12px_-2px_rgba(48,16,254,0.35)] whitespace-nowrap">
             <div className="flex items-center justify-center gap-2">
               <i className="ri-download-cloud-2-line text-lg" /> 
@@ -137,7 +146,7 @@ const UsersOverview = () => {
       {/* Mobile Export Controls (Hidden on Desktop) */}
       <div className="flex lg:hidden flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 shrink-0 w-full z-50">
         <div className="w-full sm:w-auto">
-          <DateRangeSelector value="30d" />
+          <DateRangeSelector value={selectedRange} onChange={setSelectedRange} />
         </div>
         <PrimaryButton className="w-full sm:w-auto justify-center px-5 shadow-[0_4px_12px_-2px_rgba(48,16,254,0.35)] whitespace-nowrap">
           <div className="flex items-center justify-center gap-2">
@@ -202,16 +211,16 @@ const UsersOverview = () => {
           <div className="hidden xl:flex bg-surface border border-border-main rounded-2xl p-6 flex-col gap-4">
             <h3 className="font-bold text-text-main text-lg">Quick Actions</h3>
             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4">
-              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full sm:w-auto">
+              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-95 hover:shadow-sm w-full sm:w-auto">
                 <i className="ri-user-add-line text-blue-500 shrink-0" /> <span className="truncate">Add New User</span>
               </button>
-              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full sm:w-auto">
+              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-95 hover:shadow-sm w-full sm:w-auto">
                 <i className="ri-verified-badge-line text-yellow-500 shrink-0" /> <span className="truncate">Review Verifications</span>
               </button>
-              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full sm:w-auto">
+              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-95 hover:shadow-sm w-full sm:w-auto">
                 <i className="ri-forbid-line text-red-500 shrink-0" /> <span className="truncate">View Suspended Users</span>
               </button>
-              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full sm:w-auto">
+              <button className="flex items-center justify-start gap-2 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-95 hover:shadow-sm w-full sm:w-auto">
                 <i className="ri-group-line text-primary shrink-0" /> <span className="truncate">Manage User Segments</span>
               </button>
             </div>
@@ -243,16 +252,16 @@ const UsersOverview = () => {
       <div className="xl:hidden bg-surface border border-border-main rounded-2xl p-5 flex flex-col gap-4 mt-6">
         <h3 className="font-bold text-text-main text-lg">Quick Actions</h3>
         <div className="flex flex-col gap-3">
-          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full text-left">
+          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-98 hover:shadow-sm w-full text-left">
             <i className="ri-user-add-line text-blue-500 text-lg shrink-0" /> <span className="truncate">Add New User</span>
           </button>
-          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full text-left">
+          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-98 hover:shadow-sm w-full text-left">
             <i className="ri-verified-badge-line text-yellow-500 text-lg shrink-0" /> <span className="truncate">Review Verifications</span>
           </button>
-          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full text-left">
+          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-98 hover:shadow-sm w-full text-left">
             <i className="ri-forbid-line text-red-500 text-lg shrink-0" /> <span className="truncate">View Suspended Users</span>
           </button>
-          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-colors w-full text-left">
+          <button className="flex items-center justify-start gap-3 bg-black/5 dark:bg-white/5 border border-border-main px-4 py-3 rounded-xl text-sm font-medium hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer active:scale-98 hover:shadow-sm w-full text-left">
             <i className="ri-group-line text-primary text-lg shrink-0" /> <span className="truncate">Manage User Segments</span>
           </button>
         </div>
